@@ -27,14 +27,14 @@ ASSETS_RESOURCE_DIR = os.path.join(STATIC_RESOURCE_DIR, "assets")
 path = img_out_path()
 
 # init configuration content
-biz_config = init_config()
+BIZ_CONFIG = init_config()
 
 app = FastAPI()
 
 
 @app.get("/config/json")
 async def get_config_json():
-    return biz_config.json
+    return BIZ_CONFIG.json
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -45,9 +45,7 @@ async def server():
 
 @app.get("/assets/{path:path}")
 async def build_resource(path: str):
-    print(ASSETS_RESOURCE_DIR, path)
     static_file = safe_join(ASSETS_RESOURCE_DIR, path)
-    print(static_file)
     return FileResponse(static_file)
 
 

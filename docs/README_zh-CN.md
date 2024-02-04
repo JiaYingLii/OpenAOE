@@ -3,6 +3,8 @@
 
 [![PyPI](https://img.shields.io/pypi/v/OpenAOE)](https://pypi.org/project/OpenAOE)
 [![Docker Image Version (tag latest semver)](https://img.shields.io/docker/v/opensealion/openaoe?label=docker)](https://hub.docker.com/r/opensealion/openaoe?label=docker)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/w/internlm/openaoe?label=commits)
+![PyPI - Downloads](https://img.shields.io/pypi/dw/openaoe?label=pip%20downloads)
 
 
 [English](../README.md) | 简体中文
@@ -11,9 +13,10 @@
 
 
 ## 最新进展 🎉
-- \[2024/01\] 重构了config-template.yaml，可以同时配置前后端的设置
+- \[2024/02\] 添加 gemini-pro 模型
+- \[2024/01\] 重构了 config-template.yaml，可以同时配置前后端的设置
 - \[2024/01\] 添加 internlm2-chat-7b 模型
-- \[2024/01\] 发布v0.0.1版本，正式开源。
+- \[2024/01\] 发布 v0.0.1 版本，正式开源。
 
 ______________________________________________________________________
 
