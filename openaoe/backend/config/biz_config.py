@@ -84,7 +84,7 @@ def load_config(config_path) -> BizConfig:
         logger.error(f"invalid path: {config_path}, not exist or not file")
         sys.exit(-1)
 
-    with open(config_path) as fin:
+    with open(config_path, encoding="utf-8") as fin:
         m = yaml.safe_load(fin)
         if not m or len(m) == 0:
             logger.error("init configuration failed. Exit")
