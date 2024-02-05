@@ -52,16 +52,11 @@ def chat_completion_v1(request, body: InternlmChatCompletionBody):
     }
     if body.stream:
         return chat_completion_stream_v1(request, url, headers, data)
-    else:
-        res = requests.post(url, headers=headers, json=data)
-        if res and res.status_code == 200:
-            return AOEResponse(
-                data=res.json()
-            )
-        else:
-            return AOEResponse(
-                data="request failed"
-            )
+
+    res = requests.post(url, headers=headers, json=data)
+    if res and res.status_code == 200:
+        return AOEResponse(data=res.json())
+    return AOEResponse(data="request failed")
 
 
 def chat_completion_stream_v1(request, url, headers, data):

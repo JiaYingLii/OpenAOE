@@ -1,5 +1,6 @@
-from pydantic import BaseModel
 from typing import Optional, List
+
+from pydantic import BaseModel
 
 
 class Message(BaseModel):
@@ -19,6 +20,3 @@ class GooglePalmChatBody(BaseModel):
     prompt: Prompt
     temperature: Optional[float] = 0.1
     candidate_count: Optional[int] = 1
-
-
-

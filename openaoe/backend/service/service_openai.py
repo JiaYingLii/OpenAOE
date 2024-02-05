@@ -40,6 +40,7 @@ def chat_completion_stream(request, body):
     stream logic for OpenAI model
     return format determines by body.type
     """
+
     async def event_generator():
         while True:
             client = OpenAI(
@@ -123,7 +124,7 @@ def chat_completion_stream(request, body):
 
     if body.type == 'text':
         return EventSourceResponse(event_generator())
-    elif body.type == 'json':
+    if body.type == 'json':
         return EventSourceResponse(event_generator_json())
     else:
         return AOEResponse(

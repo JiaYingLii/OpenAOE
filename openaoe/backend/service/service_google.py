@@ -19,7 +19,8 @@ async def palm_chat_svc(body: GooglePalmChatBody):
 
     if "gemini" in body.model:
         return EventSourceResponse(
-            base_stream(PROVIDER_GOOGLE, url, "post", {}, _catch_all, body=request_body, params=params))
+            base_stream(PROVIDER_GOOGLE, url, "post", {}, _catch_all, body=request_body,
+                        params=params))
 
     try:
         response = await base_request(PROVIDER_GOOGLE, url, "post", {}, request_body, params=params)
@@ -108,7 +109,7 @@ def _catch_all(event_name, *args):
         print(args[1])
         return
 
-    elif event_name != ObjectStreamer.ELEMENT_EVENT:
+    if event_name != ObjectStreamer.ELEMENT_EVENT:
         return
 
     for item in args:

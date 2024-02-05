@@ -10,9 +10,6 @@ router = APIRouter()
 async def claude_chat_stream(request: Request, body: ClaudeChatBody):
     """
     chat stream api for Claude
-    @param request: fastapi request
-    @param body: request body
-    @return: response
     """
     ret = claude_chat_stream_svc(request, body)
     return ret

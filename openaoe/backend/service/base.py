@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+"""
+ Common Request
+ TODO: all request use base_request or base_stream
+"""
 import json
 import sys
 import traceback
@@ -16,7 +20,8 @@ from openaoe.backend.util.log import log
 logger = log(__name__)
 
 
-async def base_request(provider: str, url: str, method: str, headers: dict, body=None, timeout=DEFAULT_TIMEOUT_SECONDS,
+async def base_request(provider: str, url: str, method: str, headers: dict, body=None,
+                       timeout=DEFAULT_TIMEOUT_SECONDS,
                        params=None,
                        files=None) -> AOEResponse:
     """
@@ -56,17 +61,19 @@ async def base_request(provider: str, url: str, method: str, headers: dict, body
         response.data = proxy.content
         try:
             response.data = json.loads(response.data)
-        except:
+        except Exception:
             response.data = proxy.content
 
     except Exception as e:
         response.msg = str(e)
-        logger.error(f"[{provider}] url: {url}, method: {method}, headers: {jsonable_encoder(headers)}, "
-                     f"body: {body_str} failed, response: {jsonable_encoder(response)}")
+        logger.error(
+            f"[{provider}] url: {url}, method: {method}, headers: {jsonable_encoder(headers)}, "
+            f"body: {body_str} failed, response: {jsonable_encoder(response)}")
     return response
 
 
-async def base_stream(provider: str, url: str, method: str, headers: dict, stream_callback: Callable, body=None,
+async def base_stream(provider: str, url: str, method: str, headers: dict,
+                      stream_callback: Callable, body=None,
                       timeout=DEFAULT_TIMEOUT_SECONDS,
                       params=None,
                       files=None):
@@ -78,8 +85,9 @@ async def base_stream(provider: str, url: str, method: str, headers: dict, strea
         url: complete url
         method: request method
         headers: request headers, excluding user-agent, host and ip.
-        stream_callback: use ObjectStream to stream parse json, this method will be executed while any stream received,
-                         use print to output(we have redirected stdout to response stream)
+        stream_callback: use ObjectStream to stream parse json, this method will be executed while
+                         any stream received, use print to output(we have redirected stdout to
+                         response stream)
         body: json body only
         timeout: seconds
         params: request params
@@ -107,7 +115,7 @@ async def base_stream(provider: str, url: str, method: str, headers: dict, strea
         with httpx.stream(method, url, json=body, params=params, files=files, headers=headers_pure,
                           timeout=timeout) as res:
             if res.status_code != 200:
-                raise Exception(f"request failed, model status code: {res.status_code}")
+                raise ValueError(f"request failed, model status code: {res.status_code}")
 
             # stream parser
             streamer = ObjectStreamer()
@@ -130,6 +138,7 @@ async def base_stream(provider: str, url: str, method: str, headers: dict, strea
             success=False,
             msg=str(e)
         )))
-        logger.error(f"[{provider}] url: {url}, method: {method}, headers: {jsonable_encoder(headers_pure)}, "
-                     f"body: {body_str} failed, response: {res}")
+        logger.error(
+            f"[{provider}] url: {url}, method: {method}, headers: {jsonable_encoder(headers_pure)},"
+            f" body: {body_str} failed, response: {res}")
         yield res

@@ -14,6 +14,10 @@ BIZ_CONFIG = None
 
 
 class BizConfig:
+    """
+    load yaml configuration and store.
+    """
+
     def __init__(self, **args):
         # raw dict
         self.__dict__.update(args)
@@ -29,7 +33,8 @@ class BizConfig:
         for model_name, model_config in models_dict.items():
             if model_config["provider"] not in ret:
                 ret[model_config["provider"]] = {}
-            ret[model_config["provider"]][model_name] = ModelConfig(model_config["webui"], model_config["api"])
+            ret[model_config["provider"]][model_name] = ModelConfig(model_config["webui"],
+                                                                    model_config["api"])
         return ret
 
     @models_map.getter
@@ -54,14 +59,26 @@ class ModelConfig:
 
 
 def init_config() -> BizConfig:
+    """
+    init configuration while start.
+    Returns: BizConfig
+    """
     parser = argparse.ArgumentParser(description="LLM group chat framework")
-    parser.add_argument('-f', '--file', type=str, required=True, help='Path to the YAML config file.')
+    parser.add_argument('-f', '--file', type=str, required=True,
+                        help='Path to the YAML config file.')
     config_path = parser.parse_args()
     logger.info(f"your config file is: {config_path.file}")
     return load_config(config_path.file)
 
 
 def load_config(config_path) -> BizConfig:
+    """
+    load configuration from file path.
+    Args:
+        config_path: file path string
+
+    Returns: BizConfig
+    """
     logger.info(f"start to init configuration from {config_path}.")
     if not os.path.isfile(config_path):
         logger.error(f"invalid path: {config_path}, not exist or not file")
@@ -80,6 +97,15 @@ def load_config(config_path) -> BizConfig:
 
 
 def get_model_configuration(provider: str, field, model_name: str = None):
+    """
+    fetch filed value
+    Args:
+        provider: provider name
+        field: field
+        model_name: model name, default using the first model of provider
+
+    Returns: value
+    """
     models = BIZ_CONFIG.models_map
     if not models:
         logger.error(f"invalid configuration file")
@@ -100,21 +126,42 @@ def get_model_configuration(provider: str, field, model_name: str = None):
             # default the first provider ModelConfig
             provider_models_config_list = list(provider_config.values())
             try:
-                logger.info(f"{provider} get field: {field} for anonymous model, use the first one as default.")
+                logger.info(
+                    f"{provider} get field: {field} for anonymous model, use the first one as "
+                    f"default.")
                 return provider_models_config_list[0].api_config.get(field)
             except:
                 logger.error(f"{provider} get field: {field} for anonymous model failed")
                 return ""
 
-    logger.error(f"provider: {provider} has no field: {field} configuration for model: {model_name}")
+    logger.error(
+        f"provider: {provider} has no field: {field} configuration for model: {model_name}")
     return ""
 
 
 def get_base_url(provider: str, model_name: str = None) -> str:
+    """
+    fetch the api_base item for the model of provider
+    Args:
+        provider: provider name
+        model_name: model name, default using the first model of the provider
+
+    Returns: url
+
+    """
     return get_model_configuration(provider, "api_base", model_name)
 
 
 def get_api_key(provider: str, model_name: str = None) -> str:
+    """
+    fetch the api_key item for the model of provider
+    Args:
+        provider: provider name
+        model_name: model name, default using the first model of the provider
+
+    Returns: api key
+
+    """
     return get_model_configuration(provider, "api_key", model_name)
 
 

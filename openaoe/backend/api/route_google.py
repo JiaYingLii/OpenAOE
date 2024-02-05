@@ -10,8 +10,6 @@ router = APIRouter()
 async def palm_chat(body: GooglePalmChatBody):
     """
     chat api for google PaLM model
-    @param body: request body
-    @return: response
     """
     ret = await palm_chat_svc(body)
     return ret

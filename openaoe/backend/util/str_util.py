@@ -1,8 +1,9 @@
-from fastapi import HTTPException
 import os
-from typing import List
 import random
 import string
+from typing import List
+
+from fastapi import HTTPException
 
 
 def safe_join(directory: str, path: str) -> str:
@@ -39,4 +40,3 @@ def generate_random_string(length: int):
     letters = string.ascii_lowercase
     result_str = ''.join(random.choice(letters) for i in range(length))
     return result_str
-

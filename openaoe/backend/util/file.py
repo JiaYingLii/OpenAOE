@@ -62,7 +62,7 @@ def parse_requirements(fname='requirements.txt', with_version=True):
             yield info
 
     def parse_require_file(fpath):
-        with open(fpath, 'r') as f:
+        with open(fpath, 'r', encoding="utf-8") as f:
             for line in f.readlines():
                 line = line.strip()
                 if line and not line.startswith('#'):

@@ -130,5 +130,5 @@ def minimax_chat_stream_svc(request, body: MinimaxChatCompletionBody):
 
     if body.type == "text":
         return EventSourceResponse(event_generator())
-    elif body.type == "json":
+    if body.type == "json":
         return EventSourceResponse(event_generator_json())

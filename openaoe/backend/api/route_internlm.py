@@ -10,9 +10,6 @@ router = APIRouter()
 async def internlm_chat_completions_v1(request: Request, body: InternlmChatCompletionBody):
     """
     Internlm ChatCompletion api
-    @param request: fastapi request
-    @param body: body
-    @return: response
     """
     ret = chat_completion_v1(request, body)
     return ret

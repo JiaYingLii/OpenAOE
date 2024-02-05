@@ -10,9 +10,6 @@ router = APIRouter()
 async def minimax_chat_stream(request: Request, body: MinimaxChatCompletionBody):
     """
     chat stream api for Minimax
-    @param request: fastapi request
-    @param body: request body
-    @return: response
     """
     body.stream = True
     ret = minimax_chat_stream_svc(request, body)

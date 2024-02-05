@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+"""
+ Standard response
+"""
 
 from typing import Optional
 
